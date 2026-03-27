@@ -73,14 +73,14 @@ Git workflow commands for docking to JIRA issues and shipping code.
 Add these keys to your repo's `CLAUDE.md` to configure behavior:
 
 ```markdown
-ship-scheme: careful
+shiply-scheme: careful
 dock-project: BB
 dock-branch-prefix: feature/
 ```
 
 | Key | Required | Default | Description |
 |-----|----------|---------|-------------|
-| `ship-scheme` | No | asks user | `yolo`, `careful`, or `corporate` |
+| `shiply-scheme` | No | asks user | `yolo`, `careful`, or `corporate` |
 | `dock-project` | For `/dock` | — | JIRA project key |
 | `dock-provider` | No | `jira` | Issue tracker (`jira` only for now) |
 | `dock-cloud-id` | No | auto-discovered | Atlassian cloud instance ID |

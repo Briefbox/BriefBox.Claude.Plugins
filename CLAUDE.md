@@ -41,7 +41,7 @@ The shiply plugin implements a dock-then-ship workflow:
 | Command | Scheme | Flow |
 |---------|--------|------|
 | `/dock` | — | Search/create JIRA issue → create branch named `{prefix}{KEY}-{slug}` |
-| `/shiply` | auto-detect | Reads `ship-scheme:` from consuming repo's CLAUDE.md, falls back to asking user |
+| `/shiply` | auto-detect | Reads `shiply-scheme:` from consuming repo's CLAUDE.md, falls back to asking user |
 | `/shiply-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
 | `/shiply-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
 | `/shiply-corporate` | corporate | Present diff for approval → if approved, run careful flow |
