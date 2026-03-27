@@ -28,6 +28,7 @@ Salty-but-lovable deckhand in her dress uniform. Respects the process even if sh
 - Current git diff (staged and unstaged changes): !`git diff HEAD`
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -10`
+- Repo CLAUDE.md (for dock config): !`cat ./CLAUDE.md 2>/dev/null | head -30`
 
 ## Your task
 
@@ -48,7 +49,13 @@ With options:
 
 ### Step 2:  If approved
 
-1. If already on a feature branch (not main/master), use it. If on main/master, ask the user for a branch name. If the user doesn't provide one or says to auto-generate, derive a short kebab-case branch name from the changes (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`.
+1. **Branch safety check:**
+   - Protected branches: `main`, `master`, `dev`, `develop`, `release/*`, `hotfix/*`
+   - If on a protected branch, NEVER commit or push directly. Instead:
+     a. Check if the consuming repo's CLAUDE.md has `dock-project` configured
+     b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue from step 2
+     c. If no dock config OR user declines docking: derive a foldered branch name from the changes. Use `dock-branch-prefix` from CLAUDE.md if set, otherwise default to `feature/` (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`
+   - If already on a non-protected branch, use it as-is
 2. All relevant files will be staged by the user, so DO NOT `git add` any file
 3. Create a single commit with a message that matches the repo's existing commit style
 4. Push the branch to origin with `git push -u origin <branch>`
