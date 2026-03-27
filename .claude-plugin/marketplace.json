@@ -12,7 +12,7 @@
   "plugins": [
     {
       "name": "shiply",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "source": "./plugins/shiply",
       "description": "Git workflow: dock to a JIRA issue, then ship with yolo/careful/corporate schemes",
       "category": "development",
