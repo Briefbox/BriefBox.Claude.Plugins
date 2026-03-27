@@ -1,0 +1,7 @@
+{
+  "name": "shiply",
+  "description": "Git workflow: dock to a JIRA issue, then ship with yolo/careful/corporate schemes",
+  "author": {
+    "name": "BriefBox"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "briefbox",
+  "metadata": {
+    "description": "BriefBox Claude Code plugins marketplace.",
+    "version": "1.0.0",
+    "license": "MIT"
+  },
+  "owner": {
+    "name": "BriefBox"
+  },
+  "plugins": [
+    {
+      "name": "shiply",
+      "version": "2.0.0",
+      "source": "./plugins/shiply",
+      "description": "Git workflow: dock to a JIRA issue, then ship with yolo/careful/corporate schemes",
+      "category": "development",
+      "author": { "name": "BriefBox" },
+      "tags": ["git", "workflow", "jira"]
+    }
+  ]
+}
