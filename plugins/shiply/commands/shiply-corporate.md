@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*), AskUserQuestion
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*), Bash(gh pr view:*), AskUserQuestion
 description: Shiply - review changes with user approval, then branch, commit, push, and open a PR (corporate mode)
 ---
 
@@ -59,9 +59,11 @@ With options:
 2. All relevant files will be staged by the user, so DO NOT `git add` any file
 3. Create a single commit with a message that matches the repo's existing commit style
 4. Push the branch to origin with `git push -u origin <branch>`
-5. Create a pull request with `gh pr create`. Use a concise title (under 70 chars) and a body with:
-   - `## Summary` — 1-3 bullet points
-   - `## Test plan` — checklist of how to verify the changes
+5. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
+   - **If a PR exists:** Skip creation. Reference the existing PR URL in your celebratory quip
+   - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars) and a body with:
+     - `## Summary` — 1-3 bullet points
+     - `## Test plan` — checklist of how to verify the changes
 
 ### Step 3:  If rejected
 

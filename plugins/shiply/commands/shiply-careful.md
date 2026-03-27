@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*)
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*), Bash(gh pr view:*)
 description: Shiply - create a branch, commit, push, and open a PR (careful mode)
 ---
 
@@ -32,8 +32,10 @@ Ship these changes using the **careful** scheme: branch, commit, push, and creat
 3. Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
 4. Create a single commit with a message that matches the repo's existing commit style
 5. Push the branch to origin with `git push -u origin <branch>`
-6. Create a pull request with `gh pr create`. Use a concise title (under 70 chars) and a body with:
-   - `## Summary` — 1-3 bullet points
-   - `## Test plan` — checklist of how to verify the changes
+6. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
+   - **If a PR exists:** Skip creation. Use the existing PR URL in your celebratory quip
+   - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars) and a body with:
+     - `## Summary` — 1-3 bullet points
+     - `## Test plan` — checklist of how to verify the changes
 
 Do not send any text before or between tool calls. Be efficient. After all operations succeed, print your one quip.
