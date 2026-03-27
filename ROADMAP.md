@@ -4,7 +4,7 @@
 
 ## Shipped
 
-- **shiply** — Git workflow: dock to JIRA, ship with yolo/careful/corporate schemes (`/dock`, `/shiply`, `/shiply-yolo`, `/shiply-careful`, `/shiply-corporate`)
+- **shiply** — Git workflow: dock to JIRA, ship with yolo/careful/corporate schemes (`/dock`, `/shiply`, `/shiply-yolo`, `/shiply-careful`, `/shiply-corporate`, `/address-pr-comments`)
 
 ---
 

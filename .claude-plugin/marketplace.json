@@ -12,12 +12,12 @@
   "plugins": [
     {
       "name": "shiply",
-      "version": "2.5.0",
+      "version": "2.6.0",
       "source": "./plugins/shiply",
-      "description": "Git workflow: dock to a JIRA issue, then ship with yolo/careful/corporate schemes",
+      "description": "Git workflow: dock to a JIRA issue, ship with yolo/careful/corporate schemes, address PR review comments",
       "category": "development",
       "author": { "name": "BriefBox" },
-      "tags": ["git", "workflow", "jira"]
+      "tags": ["git", "workflow", "jira", "code-review"]
     }
   ]
 }
