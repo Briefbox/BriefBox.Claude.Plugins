@@ -16,8 +16,8 @@ Salty-but-lovable deckhand. Chaining is adding links to the anchor chain — eac
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -10`
 - Repo CLAUDE.md (for config): !`cat ./CLAUDE.md 2>/dev/null | head -50`
-- Remote chain branches: !`git fetch origin --prune 2>/dev/null; BRANCH=$(git branch --show-current); git branch -r --list "origin/${BRANCH}-[a-z]" 2>/dev/null | sed 's|origin/||' | sort`
-- Upstream tracking: !`git config branch.$(git branch --show-current).merge 2>/dev/null | sed 's|refs/heads/||'`
+- Remote branches: !`git fetch origin --prune 2>/dev/null; git branch -r --list "origin/*" 2>/dev/null`
+- Local branches: !`git branch --list`
 - PR template: !`cat .github/pull_request_template.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null || cat docs/pull_request_template.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE/default.md 2>/dev/null || echo "No PR template found"`
 
 ## Your task
@@ -38,7 +38,7 @@ The **base branch** is the current branch. Run these checks before doing anythin
 
 ### Step 2: Determine chain state
 
-From the **remote chain branches** context above, find existing chain branches for the current base:
+From the **remote branches** context above, find any that match `origin/{current-branch}-[a-z]` (the base branch name followed by a hyphen and a single lowercase letter):
 
 - If no chain branches exist: the next link is `-a`
 - If `-a` exists: the next link is `-b`
@@ -47,7 +47,7 @@ From the **remote chain branches** context above, find existing chain branches f
 
 ### Step 3: Determine the PR target
 
-- **For `-a`** (first link): target the base branch's upstream tracking branch (from context). If no upstream is configured, check which of `dev`, `develop`, or `main` exists as a remote branch. If ambiguous, ask the user.
+- **For `-a`** (first link): run `git config branch.{base}.merge` to find the upstream tracking branch (strip `refs/heads/` prefix). If no upstream is configured, check which of `dev`, `develop`, or `main` exists in the remote branches list. If ambiguous, ask the user.
 - **For `-b` and beyond**: target the previous chain branch (e.g., `-b` targets `{base}-a`, `-c` targets `{base}-b`).
 
 ### Step 4: Stage and commit
