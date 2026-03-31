@@ -21,6 +21,7 @@ plugins/
       shiply-yolo.md              # /shiply-yolo — commit + push to current branch
       shiply-careful.md           # /shiply-careful — branch, commit, push, open PR
       shiply-corporate.md         # /shiply-corporate — review + approve, then careful flow
+      shiply-chain.md              # /shiply-chain — create sequential chain branch, PR targets previous link
       address-pr-comments.md     # /address-pr-comments — evaluate PR comments, fix or push back
 ```
 
@@ -48,6 +49,7 @@ The shiply plugin implements a dock-then-ship workflow:
 | `/shiply-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
 | `/shiply-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
 | `/shiply-corporate` | corporate | Present diff for approval → if approved, run careful flow |
+| `/shiply-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...), PR targets previous link |
 | `/address-pr-comments` | — | Fetch PR comments → evaluate → plan fixes or reply with pushback |
 
 ### Dock Configuration (read from consuming repo's CLAUDE.md)
@@ -58,6 +60,7 @@ The shiply plugin implements a dock-then-ship workflow:
 | `dock-provider` | No | `jira` | Only `jira` supported currently |
 | `dock-cloud-id` | No | auto-discovered | Atlassian cloud instance ID |
 | `dock-branch-prefix` | No | *(empty)* | Branch name prefix (e.g., `feature/`) |
+| `shiply-chaining` | No | `false` | Enable PR chaining — sequential snapshot branches (`-a`, `-b`, ...) with stacked PRs |
 
 ## Adding a New Plugin
 
