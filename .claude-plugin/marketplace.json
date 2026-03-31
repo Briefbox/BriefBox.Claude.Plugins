@@ -18,6 +18,16 @@
       "category": "development",
       "author": { "name": "BriefBox" },
       "tags": ["git", "workflow", "jira", "code-review"]
+    },
+    {
+      "name": "obsidian-cli",
+      "version": "1.3.0",
+      "source": "./plugins/obsidian-cli",
+      "description": "Interact with Obsidian vaults using the official Obsidian CLI (v1.12+) — read, create, search, and manage notes, tasks, properties, tags, sync, and more from the terminal",
+      "category": "productivity",
+      "author": { "name": "BriefBox" },
+      "upstream": { "author": "pablo-mano", "repository": "https://github.com/pablo-mano/Obsidian-CLI-skill", "version": "1.3.0" },
+      "tags": ["obsidian", "notes", "vault", "cli", "productivity"]
     }
   ]
 }
