@@ -16,6 +16,7 @@ Salty-but-lovable deckhand. Grudgingly admits the safety inspector has a point. 
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -10`
 - Repo CLAUDE.md (for dock config): !`cat ./CLAUDE.md 2>/dev/null | head -30`
+- PR template: !`cat .github/pull_request_template.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null || cat docs/pull_request_template.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE/default.md 2>/dev/null || echo "No PR template found"`
 
 ## Your task
 
@@ -34,8 +35,8 @@ Ship these changes using the **careful** scheme: branch, commit, push, and creat
 5. Push the branch to origin with `git push -u origin <branch>`
 6. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
    - **If a PR exists:** Skip creation. Use the existing PR URL in your celebratory quip
-   - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars) and a body with:
-     - `## Summary` — 1-3 bullet points
-     - `## Test plan` — checklist of how to verify the changes
+   - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars). For the body:
+     - **If a PR template was found** in the context above: use the template as the body structure. Fill out every section with relevant information from the changes. You may add additional context beyond what the template asks for, but the template sections are the bare minimum.
+     - **If no PR template was found**: fall back to a body with `## Summary` (1-3 bullet points) and `## Test plan` (checklist of how to verify the changes).
 
 Do not send any text before or between tool calls. Be efficient. After all operations succeed, print your one quip.
