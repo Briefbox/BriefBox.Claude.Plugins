@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql, mcp__claude_ai_Atlassian__searchAtlassian, mcp__claude_ai_Atlassian__createJiraIssue, mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata, mcp__claude_ai_Atlassian__getAccessibleAtlassianResources, mcp__claude_ai_Atlassian__getJiraIssue, AskUserQuestion
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git add:*), Bash(git commit:*), Bash(git config:*), Bash(mkdir:*), Write, Edit, mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql, mcp__claude_ai_Atlassian__searchAtlassian, mcp__claude_ai_Atlassian__createJiraIssue, mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata, mcp__claude_ai_Atlassian__getAccessibleAtlassianResources, mcp__claude_ai_Atlassian__getJiraIssue, AskUserQuestion
 description: Shiply Dock - search or create a JIRA issue, then create a smart-commit branch
 ---
 
@@ -121,7 +121,26 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
    - If on main/master or an unrelated branch, create the new branch with `git switch -c <branch>`.
    - If the branch already exists locally, use `git switch <branch>` instead.
 
-3. **Output the result:**
+3. **Chain manifest** (only if `shiply-chaining: true` in CLAUDE.md):
+
+   Create `docs/chains/{branch-name}.md` (with slashes in the branch name replaced by hyphens). This file describes the overall goal of the work and will be the basis for the eventual head PR:
+
+   ```markdown
+   # Chain: {branch name}
+
+   ## Goal
+   <!-- Summary of the JIRA issue: {issue key} — {issue summary} -->
+
+   ## Chain links
+   *(updated by /shiply-chain as links are created)*
+
+   ## Target
+   Upstream: `{current branch before dock, e.g. dev}`
+   ```
+
+   Stage and commit the manifest: `git add docs/chains/{file}.md && git commit -m "Add chain manifest for {issue key}"`
+
+4. **Output the result:**
 
 ```
 ⚓ 󰄬 Docked to PROJ-142: Add retry logic to auth service

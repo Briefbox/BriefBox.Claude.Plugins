@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(gh pr create:*), Bash(gh pr view:*)
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(git reset:*), Bash(gh pr create:*), Bash(gh pr view:*), Write, Edit, Bash(mkdir:*)
 description: Shiply Chain - create a sequential chain branch (-a, -b, -c...) from the current working branch, commit, push, and open a PR targeting the previous link in the chain
 ---
 
@@ -45,17 +45,30 @@ From the **remote branches** context above, find any that match `origin/{current
 - If `-a` through `-c` exist: the next link is `-d`
 - And so on, up to `-z` (if all 26 are used, stop and tell the user the chain is full)
 
-### Step 3: Determine the PR target
+### Step 3: Update chain manifest
+
+Look for an existing chain manifest at `docs/chains/{base-branch-name}.md` (branch name with slashes replaced by hyphens). This file is created by `/dock` when `shiply-chaining: true` is set.
+
+If the manifest exists, append the new link to the "Chain links" section:
+```
+- **-{letter}**: {brief description of what this chunk covers}
+```
+
+If no manifest exists (e.g., the branch was created manually without `/dock`), create one with the goal derived from the current changes and the link entry.
+
+The manifest will be staged along with the other changes in Step 5.
+
+### Step 4: Determine the PR target
 
 - **For `-a`** (first link): run `git config branch.{base}.merge` to find the upstream tracking branch (strip `refs/heads/` prefix). If no upstream is configured, check which of `dev`, `develop`, or `main` exists in the remote branches list. If ambiguous, ask the user.
 - **For `-b` and beyond**: target the previous chain branch (e.g., `-b` targets `{base}-a`, `-c` targets `{base}-b`).
 
-### Step 4: Stage and commit
+### Step 5: Stage and commit
 
-1. Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
+1. Stage all relevant files **and** the chain manifest with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
 2. Create a single commit with a message that matches the repo's existing commit style
 
-### Step 5: Create the chain branch, push, and PR
+### Step 6: Create the chain branch, push, and PR
 
 1. **Create the chain branch** from HEAD. If a local branch with that name already exists (from a previous failed attempt), delete it first with `git branch -D {base}-{letter}`, then create fresh: `git switch -c {base}-{letter}`
 2. Push: `git push -u origin {base}-{letter}`
@@ -71,12 +84,13 @@ From the **remote branches** context above, find any that match `origin/{current
 > Target: `{target branch}`
 ```
 
-### Step 6: Return to the working branch
+### Step 7: Return to the working branch and reset
 
-Switch back to the base branch: `git switch {base}`
+1. Switch back to the base branch: `git switch {base}`
+2. Reset the commit on the base branch: `git reset HEAD~1`
 
-This is critical — the developer continues working on the base branch, not the chain branch. Chain branches are snapshots that should not be modified directly.
+This keeps the changes as uncommitted work-in-progress on the base branch. The commit only lives on the chain branch — the base stays clean as a workspace. This matters because the base branch will eventually get its own "head PR" targeting upstream, showing the full diff of all chained work for a complete final review.
 
-### Step 7: Print quip
+### Step 8: Print quip
 
 After all operations succeed, print one celebratory quip. Mention the chain link letter, the PR, and that the user is back on their working branch.

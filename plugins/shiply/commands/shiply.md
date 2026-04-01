@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(gh pr create:*), Bash(gh pr view:*), AskUserQuestion
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(git reset:*), Bash(gh pr create:*), Bash(gh pr view:*), Write, Edit, Bash(mkdir:*), AskUserQuestion
 description: Shiply - auto-detects repo scheme from CLAUDE.md and runs the matching workflow
 ---
 
@@ -101,22 +101,26 @@ Chaining creates sequential snapshot branches (`-a`, `-b`, `-c`, ...) from the c
 
 3. **Detect chain state**: fetch and scan `git branch -r --list "origin/{current-branch}-[a-z]"`. Next letter = highest existing + 1, or `-a` if none. If all 26 letters are exhausted, stop.
 
-4. **Determine PR target**:
+4. **Update chain manifest**: Look for `docs/chains/{base-branch-name}.md` (created by `/dock`). If it exists, append the new link to the "Chain links" section. If not (manual branch), create it. Stage it with the other changes.
+
+5. **Determine PR target**:
    - For `-a`: the base branch's upstream tracking branch (`git config branch.{base}.merge`), falling back to `dev`/`develop`/`main`
    - For `-b`+: the previous chain branch (e.g., `-b` targets `{base}-a`)
 
-5. **If corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop.
+6. **If corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop.
 
-6. Stage all relevant files with `git add` — never stage secrets.
+7. Stage all relevant files **and** the chain manifest with `git add` — never stage secrets.
 
-7. Create a single commit matching the repo's existing commit style.
+8. Create a single commit matching the repo's existing commit style.
 
-8. Create the chain branch from HEAD. If a local branch with that name already exists, delete it first (`git branch -D`), then `git switch -c {base}-{letter}`.
+9. Create the chain branch from HEAD. If a local branch with that name already exists, delete it first (`git branch -D`), then `git switch -c {base}-{letter}`.
 
-9. Push: `git push -u origin {base}-{letter}`
+10. Push: `git push -u origin {base}-{letter}`
 
-10. **PR detection**: check if PR already exists with `gh pr view`. If not, create a **draft** PR with `gh pr create --base {target} --draft`. Use a concise title including chain position. Prepend a chain navigation header: `> 🔗 **Chain: \`{base}\`** — link **{letter}**`
+11. **PR detection**: check if PR already exists with `gh pr view`. If not, create a **draft** PR with `gh pr create --base {target} --draft`. Use a concise title including chain position. Prepend a chain navigation header: `> 🔗 **Chain: \`{base}\`** — link **{letter}**`
 
-11. Switch back to the working branch: `git switch {base}`
+12. Switch back to the working branch: `git switch {base}`
 
-12. Print one celebratory quip mentioning the chain link and PR.
+13. Reset the commit on the base branch: `git reset HEAD~1` — this keeps changes as uncommitted work-in-progress. The commit only lives on the chain branch. The base branch will eventually get its own "head PR" for a complete final review.
+
+14. Print one celebratory quip mentioning the chain link and PR.
