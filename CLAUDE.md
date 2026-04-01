@@ -4,6 +4,13 @@ shiply-scheme: yolo
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Versioning
+
+Every change must bump the shiply version in `.claude-plugin/marketplace.json`. Consider which semver segment to increment:
+- **Patch** (2.9.x → 2.9.y): bugfixes, typos, wording tweaks that don't change behavior
+- **Minor** (2.x.0 → 2.y.0): new commands, new features, behavioral changes to existing commands
+- **Major** (x.0.0 → y.0.0): breaking changes that require consuming repos to update their config
+
 ## What This Is
 
 A Claude Code plugin marketplace for BriefBox. Contains custom slash-command plugins that are distributed via the `.claude-plugin/marketplace.json` registry. Currently ships one plugin: **shiply**.
@@ -49,7 +56,7 @@ The shiply plugin implements a dock-then-ship workflow:
 | `/shiply-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
 | `/shiply-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
 | `/shiply-corporate` | corporate | Present diff for approval → if approved, run careful flow |
-| `/shiply-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...), PR targets previous link |
+| `/shiply-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...); branch movement only — `/shiply` handles shipping |
 | `/address-pr-comments` | — | Fetch PR comments → evaluate → plan fixes or reply with pushback |
 
 ### Dock Configuration (read from consuming repo's CLAUDE.md)

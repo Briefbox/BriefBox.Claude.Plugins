@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git add:*), Bash(git commit:*), Bash(git config:*), Bash(mkdir:*), Write, Edit, mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql, mcp__claude_ai_Atlassian__searchAtlassian, mcp__claude_ai_Atlassian__createJiraIssue, mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata, mcp__claude_ai_Atlassian__getAccessibleAtlassianResources, mcp__claude_ai_Atlassian__getJiraIssue, AskUserQuestion
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Bash(git config:*), Bash(mkdir:*), Write, Edit, mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql, mcp__claude_ai_Atlassian__searchAtlassian, mcp__claude_ai_Atlassian__createJiraIssue, mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata, mcp__claude_ai_Atlassian__getAccessibleAtlassianResources, mcp__claude_ai_Atlassian__getJiraIssue, AskUserQuestion
 description: Shiply Dock - search or create a JIRA issue, then create a smart-commit branch
 ---
 
@@ -139,6 +139,8 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
    ```
 
    Stage and commit the manifest: `git add docs/chains/{file}.md && git commit -m "Add chain manifest for {issue key}"`
+
+   Push the branch to remote: `git push -u origin {branch}`
 
 4. **Output the result:**
 

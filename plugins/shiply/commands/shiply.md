@@ -40,9 +40,7 @@ Look for a line in the CLAUDE.md content above matching `shiply-scheme: <scheme>
 - If found, use that scheme.
 - If not found, use AskUserQuestion to ask the user which scheme to use, with options: ⚡ Yolo, 󰒃 Careful, 🚢 Corporate. Add the user's response to this repo's `CLAUDE.md`
 
-Also check for `shiply-chaining: true`. When chaining is enabled:
-- **yolo scheme**: chaining does not apply (yolo doesn't create PRs). Proceed with normal yolo flow.
-- **careful or corporate scheme**: instead of the normal flow below, follow the **chaining flow** at the bottom of this file.
+Also check for `shiply-chaining: true`. When chaining is enabled, check if the current branch is a **chain branch** (see the chaining flow at the bottom of this file). Chain-aware shipping adjusts PR targets and returns to the base branch after shipping.
 
 ### Step 2: Execute the scheme
 
@@ -91,36 +89,28 @@ With options:
 
 ---
 
-#### If chaining is enabled (careful or corporate scheme):
+#### If chaining is enabled and on a chain branch:
 
-Chaining creates sequential snapshot branches (`-a`, `-b`, `-c`, ...) from the current working branch, each with a draft PR targeting the previous link. The developer stays on their working branch.
+When `shiply-chaining: true` is set, check whether the current branch is a **chain branch** — i.e., its name matches `{base}-[a-z]` (a single lowercase letter suffix) AND `origin/{base}` exists as a remote branch. If the current branch is NOT a chain branch, skip this section and use the normal scheme flow above.
 
-1. **Validate**: the current branch must not be a protected branch (`main`, `master`, `dev`, `develop`, `release/*`, `hotfix/*`). If it is, stop and suggest `/dock` or creating a feature branch first. If the branch ends in `-[a-z]` and the branch without that suffix exists on the remote, warn the user to switch back to the base branch. (Many natural branch names end in a single letter — only flag it if the stripped base actually exists.)
+When on a chain branch, the selected scheme (yolo/careful/corporate) still controls HOW changes are shipped, but chaining modifies the PR target and adds a post-ship step:
 
-2. **Empty changes guard**: if there are no staged or unstaged changes, stop — there's nothing to chain.
+1. **Identify the chain context**: extract the base branch name (everything before the final `-{letter}`) and the chain letter.
 
-3. **Detect chain state**: fetch and scan `git branch -r --list "origin/{current-branch}-[a-z]"`. Next letter = highest existing + 1, or `-a` if none. If all 26 letters are exhausted, stop.
+2. **Determine the PR target**:
+   - For `-a` (first link): run `git config branch.{base}.merge` to find the upstream tracking branch (strip `refs/heads/` prefix). If no upstream is configured, check which of `dev`, `develop`, or `main` exists on the remote. If ambiguous, ask the user.
+   - For `-b` and beyond: target the previous chain branch (e.g., `-b` targets `{base}-a`, `-c` targets `{base}-b`).
 
-4. **Update chain manifest**: Look for `docs/chains/{base-branch-name}.md` (created by `/dock`). If it exists, append the new link to the "Chain links" section. If not (manual branch), create it. Stage it with the other changes.
+3. **Update chain manifest**: Look for `docs/chains/{base-branch-name}.md` (branch name with slashes replaced by hyphens). If it exists, append the new link to the "Chain links" section: `- **-{letter}**: {brief description of what this chunk covers}`. If no manifest exists, create one with the goal derived from the current changes. Stage the manifest with the other changes.
 
-5. **Determine PR target**:
-   - For `-a`: the base branch's upstream tracking branch (`git config branch.{base}.merge`), falling back to `dev`/`develop`/`main`
-   - For `-b`+: the previous chain branch (e.g., `-b` targets `{base}-a`)
+4. **Ship using the detected scheme**, with these chain-specific overrides:
+   - **PR target**: use the target determined in step 2 instead of the default
+   - **PR format**: prepend a chain navigation header to the PR body: `> 🔗 **Chain: \`{base}\`** — link **{letter}**\n> Target: \`{target branch}\``
+   - **PR mode**: always create as **draft** (the feature is in progress — chain PRs are review checkpoints, not final submissions)
+   - **yolo scheme**: stage, commit, push as normal. No PR (yolo never creates PRs).
+   - **careful scheme**: stage, commit, push, create draft PR with chain-aware target
+   - **corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop. If approved, follow the careful chain flow.
 
-6. **If corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop.
+5. **Return to the base branch**: after shipping, switch back: `git switch {base}`. The changes now live on the chain branch only — the base branch remains a clean workspace for continued development.
 
-7. Stage all relevant files **and** the chain manifest with `git add` — never stage secrets.
-
-8. Create a single commit matching the repo's existing commit style.
-
-9. Create the chain branch from HEAD. If a local branch with that name already exists, delete it first (`git branch -D`), then `git switch -c {base}-{letter}`.
-
-10. Push: `git push -u origin {base}-{letter}`
-
-11. **PR detection**: check if PR already exists with `gh pr view`. If not, create a **draft** PR with `gh pr create --base {target} --draft`. Use a concise title including chain position. Prepend a chain navigation header: `> 🔗 **Chain: \`{base}\`** — link **{letter}**`
-
-12. Switch back to the working branch: `git switch {base}`
-
-13. Reset the commit on the base branch: `git reset HEAD~1` — this keeps changes as uncommitted work-in-progress. The commit only lives on the chain branch. The base branch will eventually get its own "head PR" for a complete final review.
-
-14. Print one celebratory quip mentioning the chain link and PR.
+6. Print one celebratory quip mentioning the chain link, the PR (if created), and that the user is back on their working branch.
