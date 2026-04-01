@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. One coffee away from mutiny, but secretly loves ever
 
 **Print this art FIRST:**
 ```
-  ⛵  DECKHAND SHIPLY v2.10.2
+  ⛵  DECKHAND SHIPLY v2.10.3
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━
          |
         ╱|╲
@@ -61,11 +61,13 @@ Also check for `shiply-chaining: true`. When chaining is enabled, check if the c
 
 #### If scheme is `careful`:
 
+Each step below is **conditional** — skip any step whose work is already done. Assess the current state from the context above and pick up from wherever the user left off.
+
 1. If already on a feature branch (not main/master), use it. If on main/master, ask the user for a branch name. If the user doesn't provide one or says to auto-generate, derive a short kebab-case branch name from the changes (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`.
-2. Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
-3. Create a single commit with a message that matches the repo's existing commit style
-4. Push the branch to origin with `git push -u origin <branch>`
-5. Create a pull request with `gh pr create`. Use a concise title (under 70 chars) and a body with:
+2. **Stage** (skip if no unstaged changes): Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
+3. **Commit** (skip if nothing staged): Create a single commit with a message that matches the repo's existing commit style
+4. **Push** (skip if local is up-to-date with remote): Push the branch to origin with `git push -u origin <branch>`
+5. **PR:** Check for an existing PR with `gh pr view`. If one exists, skip. Otherwise create with `gh pr create`. Use a concise title (under 70 chars) and a body with:
    - `## Summary` — 1-3 bullet points
    - `## Test plan` — checklist of how to verify the changes
 6. After all operations succeed, print one short celebratory quip referencing the PR (with icons)
@@ -74,11 +76,7 @@ Also check for `shiply-chaining: true`. When chaining is enabled, check if the c
 
 #### If scheme is `corporate`:
 
-**First, present changes for approval:**
-
-Summarize the changes in a clear message:
-- List of files changed (new, modified, deleted)
-- Brief description of what the changes do
+**First, present what will be shipped** — this includes uncommitted changes AND any commits not yet pushed/PR'd:
 
 Then use AskUserQuestion to ask:
 > "󰒃 Ready to launch this vessel? 🚢"
@@ -87,7 +85,7 @@ With options:
 - ** Approve** — proceed
 - ** Reject** — stop immediately, do nothing
 
-**If approved, follow the careful flow above** (branch, commit, push, PR). Print a quip on approval before proceeding.
+**If approved, follow the careful flow above** (each step is conditional — skip what's already done). Print a quip on approval before proceeding.
 
 **If rejected, stop.** Print: `"󰊗 Keeping her in port.  No changes made."` — do not stage, commit, push, or create a PR.
 

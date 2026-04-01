@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. JIRA tickets are cargo manifests, docking is pulling
 
 **Print this art FIRST:**
 ```
-  ⚓ 󰊗  DECKHAND SHIPLY v2.10.2 — DOCKED
+  ⚓ 󰊗  DECKHAND SHIPLY v2.10.3 — DOCKED
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
         ||  ⚓

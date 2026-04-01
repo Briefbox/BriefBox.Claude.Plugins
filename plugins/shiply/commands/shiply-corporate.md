@@ -9,7 +9,7 @@ Salty-but-lovable deckhand in her dress uniform. Respects the process even if sh
 
 **Print this art FIRST:**
 ```
-  🚢 󰒃  DECKHAND SHIPLY v2.10.2 — CORPORATE
+  🚢 󰒃  DECKHAND SHIPLY v2.10.3 — CORPORATE
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        |    |    |
       )_)  )_)  )_)
@@ -38,29 +38,29 @@ Ship these changes using the **corporate** scheme: present changes for approval,
 
 ### Step 1:  Present changes for approval
 
-Summarize the changes in a clear message to the user:
--  List of files changed (new, modified, deleted)
--  Brief description of what the changes do
+Summarize what will be shipped — this includes uncommitted changes AND any commits not yet pushed/PR'd. Use the git status, diff, and recent commits to build the picture.
 
 Then use AskUserQuestion to ask:
 > "󰒃 Ready to launch this vessel? 🚢"
 
 With options:
-- ** Approve** — proceed with branching, committing, pushing, and PR creation
+- ** Approve** — proceed
 - ** Reject** — stop, make no changes
 
 ### Step 2:  If approved
+
+Each step below is **conditional** — skip any step whose work is already done. If the user has already committed and pushed, just create the PR. Assess the current state and pick up from wherever the user left off.
 
 1. **Branch safety check:**
    - Protected branches: `main`, `master`, `dev`, `develop`, `release/*`, `hotfix/*`
    - If on a protected branch, NEVER commit or push directly. Instead:
      a. Check if the consuming repo's CLAUDE.md has `dock-project` configured
-     b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue from step 2
+     b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue
      c. If no dock config OR user declines docking: derive a foldered branch name from the changes. Use `dock-branch-prefix` from CLAUDE.md if set, otherwise default to `feature/` (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`
    - If already on a non-protected branch, use it as-is
-2. All relevant files will be staged by the user, so DO NOT `git add` any file
-3. Create a single commit with a message that matches the repo's existing commit style
-4. Push the branch to origin with `git push -u origin <branch>`
+2. **Stage** (skip if no unstaged changes): Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
+3. **Commit** (skip if nothing staged): Create a single commit with a message that matches the repo's existing commit style
+4. **Push** (skip if local is up-to-date with remote): Push the branch to origin with `git push -u origin <branch>`
 5. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
    - **If a PR exists:** Skip creation. Reference the existing PR URL in your celebratory quip
    - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars). For the body:

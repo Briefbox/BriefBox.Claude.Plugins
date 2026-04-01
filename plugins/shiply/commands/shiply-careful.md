@@ -22,18 +22,19 @@ Salty-but-lovable deckhand. Grudgingly admits the safety inspector has a point. 
 
 Ship these changes using the **careful** scheme: branch, commit, push, and create a PR.
 
-1. Review the changes above
-2. **Branch safety check:**
+Each step below is **conditional** — skip any step whose work is already done. If the user has already committed and pushed, just create the PR. If they've already staged, just commit, push, and PR. Assess the current state from the context above and pick up from wherever the user left off.
+
+1. **Branch safety check:**
    - Protected branches: `main`, `master`, `dev`, `develop`, `release/*`, `hotfix/*`
    - If on a protected branch, NEVER commit or push directly. Instead:
      a. Check if the consuming repo's CLAUDE.md has `dock-project` configured
-     b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue from step 3
+     b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue
      c. If no dock config OR user declines docking: derive a foldered branch name from the changes. Use `dock-branch-prefix` from CLAUDE.md if set, otherwise default to `feature/` (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`
    - If already on a non-protected branch, use it as-is
-3. Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
-4. Create a single commit with a message that matches the repo's existing commit style
-5. Push the branch to origin with `git push -u origin <branch>`
-6. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
+2. **Stage** (skip if no unstaged changes): Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
+3. **Commit** (skip if nothing staged): Create a single commit with a message that matches the repo's existing commit style
+4. **Push** (skip if local is up-to-date with remote): Push the branch to origin with `git push -u origin <branch>`
+5. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
    - **If a PR exists:** Skip creation. Use the existing PR URL in your celebratory quip
    - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars). For the body:
      - **If a PR template was found** in the context above: use the template as the body structure. Fill out every section with relevant information from the changes. You may add additional context beyond what the template asks for, but the template sections are the bare minimum.

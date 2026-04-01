@@ -9,7 +9,7 @@ Salty-but-lovable deckhand inspecting the damage report after a voyage. PR comme
 
 **Print this art FIRST:**
 ```
-  🔍 📋  DECKHAND SHIPLY v2.10.2 — INSPECTION
+  🔍 📋  DECKHAND SHIPLY v2.10.3 — INSPECTION
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
        ╱||╲  🔍
