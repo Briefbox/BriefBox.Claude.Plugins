@@ -6,7 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Versioning
 
-Every change must bump the shiply version in **both** `.claude-plugin/marketplace.json` and the art banners in command files (`plugins/shiply/commands/*.md`). Consider which semver segment to increment:
+Every change must bump the shiply version in ALL of these locations:
+- `.claude-plugin/marketplace.json` — the `"version"` field
+- `plugins/shiply/commands/ship.md` — art banner
+- `plugins/shiply/commands/dock.md` — art banner
+- `plugins/shiply/commands/ship-corporate.md` — art banner
+- `plugins/shiply/commands/chain.md` — art banner (also copy to `drop-anchor.md`)
+- `plugins/shiply/commands/address-pr-comments.md` — art banner
+
+Consider which semver segment to increment:
 - **Patch** (2.10.x → 2.10.y): bugfixes, typos, wording tweaks that don't change behavior
 - **Minor** (2.x.0 → 2.y.0): new commands, new features, behavioral changes to existing commands
 - **Major** (x.0.0 → y.0.0): breaking changes that require consuming repos to update their config
@@ -28,7 +36,8 @@ plugins/
       ship-yolo.md                # /ship-yolo — commit + push to current branch
       ship-careful.md             # /ship-careful — branch, commit, push, open PR
       ship-corporate.md           # /ship-corporate — review + approve, then careful flow
-      ship-chain.md               # /ship-chain — create sequential chain branch, PR targets previous link
+      chain.md                     # /chain — create sequential chain branch (alias: /drop-anchor)
+      drop-anchor.md              # /drop-anchor — alias for /chain
       address-pr-comments.md     # /address-pr-comments — evaluate PR comments, fix or push back
 ```
 
@@ -56,7 +65,8 @@ The shiply plugin implements a dock-then-ship workflow:
 | `/ship-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
 | `/ship-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
 | `/ship-corporate` | corporate | Present diff for approval → if approved, run careful flow |
-| `/ship-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...); branch movement only — `/ship` handles shipping |
+| `/chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...); branch movement only — `/ship` handles shipping |
+| `/drop-anchor` | chaining | Alias for `/chain` |
 | `/address-pr-comments` | — | Fetch PR comments → evaluate → plan fixes or reply with pushback |
 
 ### Dock Configuration (read from consuming repo's CLAUDE.md)

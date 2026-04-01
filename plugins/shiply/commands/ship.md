@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. One coffee away from mutiny, but secretly loves ever
 
 **Print this art FIRST:**
 ```
-  ⛵  DECKHAND SHIPLY v2.12.0
+  ⛵  DECKHAND SHIPLY v2.13.0
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━
          |
         ╱|╲
@@ -113,6 +113,6 @@ When on a chain branch, the selected scheme (yolo/careful/corporate) still contr
    - **careful scheme**: stage, commit, push, create draft PR with chain-aware target
    - **corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop. If approved, follow the careful chain flow.
 
-5. **Stay on the chain branch**. The user continues working here until the next `/ship-chain` creates the next link.
+5. **Stay on the chain branch**. The user continues working here until the next `/chain` creates the next link.
 
 6. Print one celebratory quip mentioning the chain link and the PR (if created).

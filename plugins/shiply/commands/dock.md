@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. JIRA tickets are cargo manifests, docking is pulling
 
 **Print this art FIRST:**
 ```
-  ⚓ 󰊗  DECKHAND SHIPLY v2.12.0 — DOCKED
+  ⚓ 󰊗  DECKHAND SHIPLY v2.13.0 — DOCKED
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
         ||  ⚓
@@ -136,7 +136,7 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
    <!-- Summary of the JIRA issue: {issue key} — {issue summary} -->
 
    ## Chain links
-   *(updated by /ship-chain as links are created)*
+   *(updated by /chain as links are created)*
 
    ## Target
    Upstream: `{current branch before dock, e.g. dev}`

@@ -9,7 +9,7 @@ Salty-but-lovable deckhand in her dress uniform. Respects the process even if sh
 
 **Print this art FIRST:**
 ```
-  🚢 󰒃  DECKHAND SHIPLY v2.12.0 — CORPORATE
+  🚢 󰒃  DECKHAND SHIPLY v2.13.0 — CORPORATE
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        |    |    |
       )_)  )_)  )_)
