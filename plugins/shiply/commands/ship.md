@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(git reset:*), Bash(gh pr create:*), Bash(gh pr view:*), Write, Edit, Bash(mkdir:*), AskUserQuestion
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*), Bash(gh pr create:*), Bash(gh pr view:*), Write, Edit, Bash(mkdir:*), AskUserQuestion
 description: Shiply - auto-detects repo scheme from CLAUDE.md and runs the matching workflow
 ---
 
@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. One coffee away from mutiny, but secretly loves ever
 
 **Print this art FIRST:**
 ```
-  ⛵  DECKHAND SHIPLY v2.10.3
+  ⛵  DECKHAND SHIPLY v2.12.0
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━
          |
         ╱|╲
@@ -113,6 +113,6 @@ When on a chain branch, the selected scheme (yolo/careful/corporate) still contr
    - **careful scheme**: stage, commit, push, create draft PR with chain-aware target
    - **corporate scheme**: present changes for approval first (same as corporate flow above). If rejected, stop. If approved, follow the careful chain flow.
 
-5. **Return to the base branch**: after shipping, switch back: `git switch {base}`. The changes now live on the chain branch only — the base branch remains a clean workspace for continued development.
+5. **Stay on the chain branch**. The user continues working here until the next `/ship-chain` creates the next link.
 
-6. Print one celebratory quip mentioning the chain link, the PR (if created), and that the user is back on their working branch.
+6. Print one celebratory quip mentioning the chain link and the PR (if created).

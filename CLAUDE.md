@@ -24,11 +24,11 @@ plugins/
     .claude-plugin/plugin.json    # Plugin metadata (name, description, author)
     commands/
       dock.md                     # /dock — connect work to a JIRA issue, create smart-commit branch
-      shiply.md                   # /shiply — auto-detect scheme from CLAUDE.md, then ship
-      shiply-yolo.md              # /shiply-yolo — commit + push to current branch
-      shiply-careful.md           # /shiply-careful — branch, commit, push, open PR
-      shiply-corporate.md         # /shiply-corporate — review + approve, then careful flow
-      shiply-chain.md              # /shiply-chain — create sequential chain branch, PR targets previous link
+      ship.md                     # /ship — auto-detect scheme from CLAUDE.md, then ship
+      ship-yolo.md                # /ship-yolo — commit + push to current branch
+      ship-careful.md             # /ship-careful — branch, commit, push, open PR
+      ship-corporate.md           # /ship-corporate — review + approve, then careful flow
+      ship-chain.md               # /ship-chain — create sequential chain branch, PR targets previous link
       address-pr-comments.md     # /address-pr-comments — evaluate PR comments, fix or push back
 ```
 
@@ -52,11 +52,11 @@ The shiply plugin implements a dock-then-ship workflow:
 | Command | Scheme | Flow |
 |---------|--------|------|
 | `/dock` | — | Search/create JIRA issue → create branch named `{prefix}{KEY}-{slug}` |
-| `/shiply` | auto-detect | Reads `shiply-scheme:` from consuming repo's CLAUDE.md, falls back to asking user |
-| `/shiply-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
-| `/shiply-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
-| `/shiply-corporate` | corporate | Present diff for approval → if approved, run careful flow |
-| `/shiply-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...); branch movement only — `/shiply` handles shipping |
+| `/ship` | auto-detect | Reads `shiply-scheme:` from consuming repo's CLAUDE.md, falls back to asking user |
+| `/ship-yolo` | yolo | `git add` → `git commit` → `git push` (current branch) |
+| `/ship-careful` | careful | Create branch if on main → `git add` → `git commit` → `git push -u` → `gh pr create` |
+| `/ship-corporate` | corporate | Present diff for approval → if approved, run careful flow |
+| `/ship-chain` | chaining | Create sequential chain branch (`-a`, `-b`, ...); branch movement only — `/ship` handles shipping |
 | `/address-pr-comments` | — | Fetch PR comments → evaluate → plan fixes or reply with pushback |
 
 ### Dock Configuration (read from consuming repo's CLAUDE.md)

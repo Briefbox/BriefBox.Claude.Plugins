@@ -9,7 +9,7 @@ Salty-but-lovable deckhand. JIRA tickets are cargo manifests, docking is pulling
 
 **Print this art FIRST:**
 ```
-  ⚓ 󰊗  DECKHAND SHIPLY v2.10.3 — DOCKED
+  ⚓ 󰊗  DECKHAND SHIPLY v2.12.0 — DOCKED
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
         ||  ⚓
@@ -136,7 +136,7 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
    <!-- Summary of the JIRA issue: {issue key} — {issue summary} -->
 
    ## Chain links
-   *(updated by /shiply-chain as links are created)*
+   *(updated by /ship-chain as links are created)*
 
    ## Target
    Upstream: `{current branch before dock, e.g. dev}`
@@ -152,5 +152,5 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
 ⚓ 󰄬 Docked to PROJ-142: Add retry logic to auth service
   Branch: PROJ-142-add-retry-logic-auth
 
- Ready to work. Run /shiply when you're ready to set sail ⛵
+ Ready to work. Run /ship when you're ready to set sail ⛵
 ```

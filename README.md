@@ -63,10 +63,10 @@ Git workflow commands for docking to JIRA issues and shipping code.
 | Command | Description |
 |---------|-------------|
 | `/dock` | Search or create a JIRA issue, then create a smart-commit branch |
-| `/shiply` | Auto-detect shipping scheme from your repo's CLAUDE.md and ship |
-| `/shiply-yolo` | Commit and push to the current branch |
-| `/shiply-careful` | Create a branch, commit, push, and open a PR |
-| `/shiply-corporate` | Review changes with approval gate, then branch + commit + push + PR |
+| `/ship` | Auto-detect shipping scheme from your repo's CLAUDE.md and ship |
+| `/ship-yolo` | Commit and push to the current branch |
+| `/ship-careful` | Create a branch, commit, push, and open a PR |
+| `/ship-corporate` | Review changes with approval gate, then branch + commit + push + PR |
 
 ### Configuring shiply for your repo
 
@@ -91,5 +91,5 @@ dock-branch-prefix: feature/
 ```
 /dock                  # find/create JIRA issue → creates branch BB-142-add-retry-logic
 # ... do your work ...
-/shiply                # ships using the scheme configured in CLAUDE.md
+/ship                  # ships using the scheme configured in CLAUDE.md
 ```
