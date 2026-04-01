@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*)
+allowed-tools: Bash(git log:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git config:*)
 description: Shiply Chain - create the next sequential chain branch (-a, -b, -c...) from the current working branch
 ---
 
@@ -11,14 +11,13 @@ Salty-but-lovable deckhand. Chaining is adding links to the anchor chain — eac
 
 ## Context
 
-- Current git status: !`git status`
 - Current branch: !`git branch --show-current`
 - Remote branches: !`git fetch origin --prune 2>/dev/null; git branch -r --list "origin/*" 2>/dev/null`
 - Local branches: !`git branch --list`
 
 ## Your task
 
-Create the next link in the chain. Chaining is **only about branch movements** — no staging, committing, pushing, or PR creation. That's `/shiply`'s job.
+Create the next link in the chain. Chaining is **purely branch movement** — create the branch and nothing else. Do NOT check for changes, do NOT check git status, do NOT guard against a clean working tree. The branch gets created regardless of whether there are pending changes. Staging, committing, pushing, and PR creation are `/shiply`'s job.
 
 ### Why chaining exists
 

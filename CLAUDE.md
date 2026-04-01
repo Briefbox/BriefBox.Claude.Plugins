@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Versioning
 
-Every change must bump the shiply version in `.claude-plugin/marketplace.json`. Consider which semver segment to increment:
-- **Patch** (2.9.x → 2.9.y): bugfixes, typos, wording tweaks that don't change behavior
+Every change must bump the shiply version in **both** `.claude-plugin/marketplace.json` and the art banners in command files (`plugins/shiply/commands/*.md`). Consider which semver segment to increment:
+- **Patch** (2.10.x → 2.10.y): bugfixes, typos, wording tweaks that don't change behavior
 - **Minor** (2.x.0 → 2.y.0): new commands, new features, behavioral changes to existing commands
 - **Major** (x.0.0 → y.0.0): breaking changes that require consuming repos to update their config
 
