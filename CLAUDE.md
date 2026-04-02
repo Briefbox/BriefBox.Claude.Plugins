@@ -21,13 +21,13 @@ Consider which semver segment to increment:
 
 ## What This Is
 
-A Claude Code plugin marketplace for BriefBox. Contains custom slash-command plugins that are distributed via the `.claude-plugin/marketplace.json` registry. Currently ships one plugin: **shiply**.
+A Claude Code plugin marketplace for BriefBox. Contains custom plugins distributed via the `.claude-plugin/marketplace.json` registry (e.g., shiply). Also contains a `skills/` directory for developing standalone skills — these are a separate concept from plugins (see below).
 
 ## Repository Structure
 
 ```
 .claude-plugin/marketplace.json   # Plugin registry — lists all published plugins
-plugins/
+plugins/                          # Plugins (installed via marketplace, provide slash commands)
   shiply/
     .claude-plugin/plugin.json    # Plugin metadata (name, description, author)
     commands/
@@ -39,9 +39,17 @@ plugins/
       chain.md                     # /chain — create sequential chain branch (alias: /drop-anchor)
       drop-anchor.md              # /drop-anchor — alias for /chain
       address-pr-comments.md     # /address-pr-comments — evaluate PR comments, fix or push back
+  obsidian-cli/                   # External plugin (upstream: pablo-mano/Obsidian-CLI-skill)
+    .claude-plugin/plugin.json
+    skills/obsidian-cli/
+      SKILL.md
+      references/command-reference.md
+skills/                           # Standalone skills (development/authoring area)
 ```
 
 ## Plugin Architecture
+
+### Plugins (slash commands)
 
 Each plugin is a directory under `plugins/` containing:
 - `.claude-plugin/plugin.json` — metadata (name, description, author)
@@ -52,7 +60,29 @@ Command files use this structure:
 - **Context section**: Dynamic context via `!`-prefixed shell commands (e.g., `!`\``git status`\``)
 - **Task section**: Step-by-step instructions for the command's behavior
 
-The marketplace registry (`.claude-plugin/marketplace.json`) indexes all plugins with name, version, source path, description, category, and tags.
+### Skills (separate from plugins)
+
+Skills are **not** part of the plugin/marketplace system. They are auto-discovered from the filesystem — no install command exists.
+
+Claude Code loads skills from:
+1. **Project**: `.claude/skills/<skill-name>/SKILL.md`
+2. **User-wide**: `~/.claude/skills/<skill-name>/SKILL.md`
+
+Skills activate automatically based on trigger keywords — no slash command needed.
+
+Each skill directory contains:
+- `SKILL.md` — skill definition with triggers, description, and instructions
+- `references/` — optional supporting reference docs
+
+Skill files use this structure:
+- **Frontmatter** (`---` delimited): `name`, `version`, `description`, `triggers` (keyword list that auto-activates the skill)
+- **Body**: Instructions, tool permissions, and workflow steps
+
+The `skills/` directory in this repo is a **development/authoring area** for writing skills. To use a skill, copy it to `.claude/skills/` in the target project or `~/.claude/skills/` for user-wide access.
+
+> **Note:** Skills can also be bundled inside plugins (like obsidian-cli under `plugins/`), in which case they're distributed via the marketplace. But standalone skills are just files on disk.
+
+The marketplace registry (`.claude-plugin/marketplace.json`) indexes plugins only.
 
 ## Shiply Plugin — Shipping Schemes
 
@@ -84,3 +114,9 @@ The shiply plugin implements a dock-then-ship workflow:
 1. Create `plugins/<name>/.claude-plugin/plugin.json` with name, description, author
 2. Add command markdown files to `plugins/<name>/commands/`
 3. Register the plugin in `.claude-plugin/marketplace.json` under the `plugins` array
+
+## Adding a New Skill
+
+1. Create `skills/<skill-name>/SKILL.md` with frontmatter (name, version, description, triggers) and instructions
+2. Optionally add a `references/` directory with supporting docs
+3. To use: copy the skill directory to `.claude/skills/` in the target project or `~/.claude/skills/` for user-wide access

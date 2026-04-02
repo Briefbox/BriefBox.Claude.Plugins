@@ -1,6 +1,6 @@
 # BriefBox Claude Code Plugins
 
-A plugin marketplace for [Claude Code](https://claude.ai/code) containing BriefBox's shared developer workflow commands.
+A plugin marketplace and skill repository for [Claude Code](https://claude.ai/code) containing BriefBox's shared developer workflow commands and auto-triggered skills.
 
 ## Installation
 
@@ -54,6 +54,24 @@ Then reload to activate:
 /reload-plugins
 ```
 
+## Installing Skills
+
+Skills are **separate from plugins** — they're auto-triggered capabilities that Claude Code discovers from the filesystem, not from marketplaces. There is no `/plugin install` for standalone skills.
+
+To use a skill from this repo's `skills/` directory:
+
+```shell
+# Project-wide (committed to the repo that needs the skill)
+cp -r skills/<skill-name> <your-project>/.claude/skills/
+
+# User-wide (available in all your projects)
+cp -r skills/<skill-name> ~/.claude/skills/
+```
+
+Once in place, skills activate automatically when your message matches their trigger keywords — no slash command needed.
+
+> **Note:** Some skills (like obsidian-cli) are bundled inside plugins under `plugins/` and distributed via the marketplace. BriefBox-authored standalone skills live in `skills/` and are copied manually.
+
 ## Available Plugins
 
 ### shiply
@@ -92,4 +110,14 @@ dock-branch-prefix: feature/
 /dock                  # find/create JIRA issue → creates branch BB-142-add-retry-logic
 # ... do your work ...
 /ship                  # ships using the scheme configured in CLAUDE.md
+```
+
+## Available Skills
+
+### obsidian-cli (bundled as plugin)
+
+Obsidian vault operations via the official Obsidian CLI (v1.12+). Triggers automatically on keywords like "obsidian", "vault", "daily note", etc. Distributed as a plugin since it's an external fork:
+
+```shell
+/plugin install obsidian-cli@briefbox
 ```
