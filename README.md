@@ -93,7 +93,6 @@ Add these keys to your repo's `CLAUDE.md` to configure behavior:
 ```markdown
 shiply-scheme: careful
 dock-project: BB
-dock-branch-prefix: feature/
 ```
 
 | Key | Required | Default | Description |
@@ -102,7 +101,8 @@ dock-branch-prefix: feature/
 | `dock-project` | For `/dock` | — | JIRA project key |
 | `dock-provider` | No | `jira` | Issue tracker (`jira` only for now) |
 | `dock-cloud-id` | No | auto-discovered | Atlassian cloud instance ID |
-| `dock-branch-prefix` | No | *(empty)* | Prefix for branch names (e.g. `feature/`) |
+
+Dock derives the branch prefix from the JIRA issue type (e.g. `story/`, `bug/`, `epic/`, `task/`). When not docking, `/ship-careful` and `/ship-corporate` prompt for `feature/`, `hotfix/`, or `experiment/`.
 
 ### Typical workflow
 

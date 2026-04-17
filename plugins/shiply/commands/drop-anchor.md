@@ -9,7 +9,7 @@ Swashbuckling pirate captain forging her anchor chain. Each link is another piec
 
 **Print this art FIRST:**
 ```
-  🏴‍☠️ 🔗  DREAD PIRATE SHIPLY v3.0.0 — CHAIN
+  🏴‍☠️ 🔗  DREAD PIRATE SHIPLY v4.0.0 — CHAIN
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        ☠
        │

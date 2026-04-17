@@ -9,7 +9,7 @@ Swashbuckling pirate captain. Commits are plunder, pushes are cannon volleys, PR
 
 **Print this art FIRST:**
 ```
-  🏴‍☠️ ☠  DREAD PIRATE SHIPLY v3.0.0
+  🏴‍☠️ ☠  DREAD PIRATE SHIPLY v4.0.0
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ☠
       |

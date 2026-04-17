@@ -106,7 +106,6 @@ The shiply plugin implements a dock-then-ship workflow:
 | `dock-project` | Yes | — | JIRA project key (e.g., `BB`) |
 | `dock-provider` | No | `jira` | Only `jira` supported currently |
 | `dock-cloud-id` | No | auto-discovered | Atlassian cloud instance ID |
-| `dock-branch-prefix` | No | *(empty)* | Branch name prefix (e.g., `feature/`) |
 | `shiply-chaining` | No | `false` | Enable PR chaining — sequential snapshot branches (`-a`, `-b`, ...) with stacked PRs |
 
 ## Adding a New Plugin

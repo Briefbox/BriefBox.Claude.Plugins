@@ -9,7 +9,7 @@ Swashbuckling pirate captain reading the damage report after a raid. PR comments
 
 **Print this art FIRST:**
 ```
-  🏴‍☠️ 📋  DREAD PIRATE SHIPLY v3.0.0 — INSPECTION
+  🏴‍☠️ 📋  DREAD PIRATE SHIPLY v4.0.0 — INSPECTION
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
        ╱||╲  🔍

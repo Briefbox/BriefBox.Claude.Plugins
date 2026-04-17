@@ -9,7 +9,7 @@ Swashbuckling pirate captain making port. JIRA tickets are treasure maps, dockin
 
 **Print this art FIRST:**
 ```
-  🏴‍☠️ ⚓  DREAD PIRATE SHIPLY v3.0.0 — DOCKED
+  🏴‍☠️ ⚓  DREAD PIRATE SHIPLY v4.0.0 — DOCKED
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         ||
         ||  ☠
@@ -45,7 +45,6 @@ Look for these keys in the CLAUDE.md content above:
 | `dock-provider` | No | `jira` | `jira` or `linear` |
 | `dock-project` | Yes | — | `PROJ`, `BB` |
 | `dock-cloud-id` | No | auto-discovered | `c4a8235a-5555-4db2-a782-0f912e46a01c` |
-| `dock-branch-prefix` | No | *(empty)* | `feature/` |
 
 **If `dock-provider` is `linear`:** Stop and inform the user that Linear support is not yet implemented. Suggest using `dock-provider: jira` for now.
 
@@ -53,7 +52,7 @@ Look for these keys in the CLAUDE.md content above:
 
 **If `dock-cloud-id` is missing:** Call `getAccessibleAtlassianResources` to discover available Atlassian sites. If exactly one site, use it. If multiple, present them via AskUserQuestion and let the user pick. Suggest adding `dock-cloud-id: <ID>` to their CLAUDE.md.
 
-**If Atlassian MCP tools are unavailable or fail:** Fall back to asking the user for an issue key directly (e.g. "PROJ-142"), then skip to Step 6.
+**If Atlassian MCP tools are unavailable or fail:** Fall back to asking the user for an issue key directly (e.g. "PROJ-142") AND the issue type (Story/Bug/Epic/Task/Other), then skip to Step 6.
 
 ### Step 2:  Derive search terms
 
@@ -93,6 +92,8 @@ Use AskUserQuestion to let the user select:
 
 Prompt: `"⚓ Which vessel are we boarding? 󰊗"`
 
+If the user picks "enter an issue key manually", prompt for the key (e.g. `PROJ-142`), then call `getJiraIssue` to fetch its `issuetype` and `summary` — these are required for Step 6. If `getJiraIssue` fails, ask the user for the issue type (Story/Bug/Epic/Task/Other) and summary directly.
+
 If no results were found, inform the user and proceed to Step 5.
 
 ### Step 5: 🚀 Create a new issue (if needed)
@@ -112,13 +113,13 @@ Only reach this step if no existing issue was selected.
 
 ### Step 6:  Create the branch
 
-Given the selected issue key (e.g. `PROJ-142`) and its summary:
+Given the selected issue key (e.g. `PROJ-142`), its **issue type** (e.g. `Bug`, `Story`, `Epic`, `Task`, `Sub-task`, `New Feature`), and its summary:
 
 1. **Derive the branch name:**
-   - Start with `dock-branch-prefix` if configured (e.g. `feature/`)
+   - Start with the **issue type as a folder prefix**: lowercase the issue type name and replace spaces with hyphens, followed by `/`. Examples: `Story`→`story/`, `Bug`→`bug/`, `Epic`→`epic/`, `Task`→`task/`, `Sub-task`→`sub-task/`, `New Feature`→`new-feature/`. If the issue type is unknown (manual fallback where even `getJiraIssue` failed and the user didn't provide a type), default to `task/`.
    - Append the issue key: `PROJ-142`
-   - Append a kebab-case slug from the summary (max 5 words, lowercase, alphanumeric and hyphens only)
-   - Example: `PROJ-142-add-retry-logic-auth` or `feature/PROJ-142-add-retry-logic-auth`
+   - Append `-` then a kebab-case slug from the summary: **3-5 meaningful words** (prefer 3), lowercase, alphanumeric and hyphens only. Drop filler words (a, the, of, to, for) when trimming.
+   - Examples: `story/PROJ-142-add-retry-logic`, `bug/PROJ-138-login-timeout`, `sub-task/PROJ-200-split-parser`
 
 2. **Check current branch:**
    - If already on a branch containing the issue key (e.g. `PROJ-142-something`), keep it. Inform the user they're already on a matching branch.
@@ -149,8 +150,8 @@ Given the selected issue key (e.g. `PROJ-142`) and its summary:
 4. **Output the result:**
 
 ```
-⚓ 󰄬 Docked to PROJ-142: Add retry logic to auth service
-  Branch: PROJ-142-add-retry-logic-auth
+⚓ 󰄬 Docked to PROJ-142 [Story]: Add retry logic to auth service
+  Branch: story/PROJ-142-add-retry-logic
 
  Ready to work. Run /ship when you're ready to set sail ⛵
 ```

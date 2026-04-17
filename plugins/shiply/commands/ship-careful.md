@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*), Bash(gh pr view:*)
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git switch:*), Bash(git checkout:*), Bash(gh pr create:*), Bash(gh pr view:*), AskUserQuestion
 description: Shiply - create a branch, commit, push, and open a PR (careful mode)
 ---
 
@@ -29,14 +29,19 @@ Each step below is **conditional** — skip any step whose work is already done.
    - If on a protected branch, NEVER commit or push directly. Instead:
      a. Check if the consuming repo's CLAUDE.md has `dock-project` configured
      b. If dock config exists: ask the user "Dock to a JIRA issue first?" — if yes, invoke the `/dock` flow to create a properly named branch, then continue
-     c. If no dock config OR user declines docking: derive a foldered branch name from the changes. Use `dock-branch-prefix` from CLAUDE.md if set, otherwise default to `feature/` (e.g., `feature/add-retry-logic`). Create the branch with `git switch -c <branch>`
+     c. If no dock config OR user declines docking: ask the user (AskUserQuestion) which kind of work this is — **Feature**, **Hotfix**, or **Experiment**. Map to prefix `feature/`, `hotfix/`, or `experiment/`. If the user picks the "Other" free-text option, kebab-case their answer and append `/`. Derive a 3-5 word kebab slug from the changes. Final branch: `{prefix}{slug}` (e.g. `hotfix/fix-login-redirect`). Create the branch with `git switch -c <branch>`.
    - If already on a non-protected branch, use it as-is
 2. **Stage** (skip if no unstaged changes): Stage all relevant files with `git add` — never stage files that likely contain secrets (.env, credentials, keys, etc.)
 3. **Commit** (skip if nothing staged): Create a single commit with a message that matches the repo's existing commit style
 4. **Push** (skip if local is up-to-date with remote): Push the branch to origin with `git push -u origin <branch>`
 5. **PR detection:** Run `gh pr view --json url` to check if a PR already exists for the current branch
    - **If a PR exists:** Skip creation. Use the existing PR URL in your celebratory quip
-   - **If no PR exists:** Create one with `gh pr create`. Use a concise title (under 70 chars). For the body:
+   - **If no PR exists:** Create one with `gh pr create`. For the **title**:
+     - **Format**: `[{ISSUE-KEY}] {EMOJI} {Title}`
+     - **Issue key**: extract by matching the first `[A-Z][A-Z0-9]+-[0-9]+` occurrence in the current branch name. If none found, drop the `[{KEY}] ` segment entirely and use `{EMOJI} {Title}`.
+     - **Emoji**: pick ONE emoji that fits the work — read the diff, commits, and draft title and riff. Be playful and varied. Starter palette (not a fixed map, go nuts): 🐛 bugfix, ✨ new feature, 🔥 hotfix, ⚡ perf, ♻️ refactor, 📝 docs, 🧹 cleanup, 🎨 UI polish, 🧪 experiment, 🚨 security, 🚀 ship it, 🔧 config, ✅ tests, 🏗️ build, 🔒 auth, 📦 deps, 🦺 safety, 🪲 subtle bug, 🧯 firefight, 🛠️ tooling. If something wilder fits the change better, use it.
+     - **Title**: concise (under 70 chars for the `{Title}` portion), matches repo commit-style phrasing.
+   - For the **body**:
      - **If a PR template was found** in the context above: use the template as the body structure. Fill out every section with relevant information from the changes. You may add additional context beyond what the template asks for, but the template sections are the bare minimum.
      - **If no PR template was found**: fall back to a body with `## Summary` (1-3 bullet points) and `## Test plan` (checklist of how to verify the changes).
 
